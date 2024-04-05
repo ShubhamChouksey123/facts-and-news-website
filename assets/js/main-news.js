@@ -1,6 +1,6 @@
 // const API_KEY = "";
-const API_KEY = "cf0cc64a6b974c66b085a31411e45786";
-const url = "https://newsapi.org/v2/everything?q=";
+const API_KEY = "pub_41374058451432a24eb77e3552c8fb2010e7d";
+const url = "https://newsdata.io/api/1/news?apikey=" + API_KEY + "&q=";
 
 window.addEventListener("load", () => fetchNews("India"));
 window.addEventListener("load", () => setDate());
@@ -25,18 +25,26 @@ async function fetchNews(query) {
 
 	console.log("fetching news with query : " + query);
 
-	const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+	const res = await fetch(`${url}${query}`);
 	const data = await res.json();
 	console.log(data);
-	console.log("Logging from the fetchNews function");
-	console.log(data.articles);
 
-	showContentInCard(data.articles);
+	if (!data) {
+		console.log("null data from API call");
+		return;
+	}
+
+	showContentInCard(data.results);
 }
 
 
 
 function showContentInCard(articles) {
+
+	if (!articles) {
+		console.log("null data from API call");
+		return;
+	}
 
 	document.getElementById('container-news-card').innerHTML = "";
 	console.log("Logging from the bindData function");
@@ -46,11 +54,19 @@ function showContentInCard(articles) {
 
 	articles.forEach(article => {
 
-		if (!article.urlToImage) {
-			console.log("Image is null for article : " + article.title);
+		if (!article.image_url && !article.source_icon) {
+			console.log("Image null for article : " + article.title);
 			return;
 		}
-		console.log("Image is not null for article : " + article.title);
+
+		if (!article.link) {
+			console.log("link null for article : " + article.title);
+			return;
+		}
+		if (!article.title) {
+			console.log("title null for article : " + article.title);
+			return;
+		}
 
 		articleFiltered.push(article);
 
@@ -66,45 +82,62 @@ function showContentInCard(articles) {
 
 
 // Function to fill the template with article and append it to the DOM
-function fillNewsCard(article) {
+function fillNewsCard(articles) {
+
+	console.log("after filtering we have article.length : " + articles.length);
+
 	// Get the template
 	const template = document.querySelector('#template-news-card');
 
-	// Clone the template content
-	const clone = document.importNode(template.content, true);
 
-	for (let i = 0; i < 4; i++) {
-		fillNthCard(article[i], clone, i);
+	for (let i = 0; i < articles.length; i++) {
+
+		// Clone the template content
+		const clone = document.importNode(template.content, true);
+		console.log("Now working for  : " + articles[i].title);
+		fillNthCard(articles[i], clone);
+		document.getElementById('container-news-card').appendChild(clone);
 	}
 
-	document.getElementById('container-news-card').appendChild(clone);
+
+
 }
 
 // Function to fill the Nth Card with article and append it to the DOM
-function fillNthCard(article, clone, i) {
+function fillNthCard(article, clone) {
+
+	if (!article) {
+		console.log("null data from API call");
+		return;
+	}
 
 	console.log("The article is ");
 	console.log(article);
 	// Fill in the data
 	const img = clone.querySelector('#news-img');
-	img.src = article.urlToImage;
+	img.src = article.image_url;
 	img.alt = article.title;
 
 	const title = clone.querySelector('#news-title');
 	title.textContent = article.title;
-	title.href = article.url;
+	title.href = article.link;
 
 	const desc = clone.querySelector('#news-desc');
 	desc.textContent = article.description;
-	desc.href = article.url;
+	desc.href = article.link;
 
 
-	const dateNews = new Date(article.publishedAt).toLocaleString("en-US", {
+	const dateNews = new Date(article.pubDate).toLocaleString("en-US", {
 		timeZone: "Asia/Jakarta",
 	});
 
 	const date = clone.querySelector('#news-date');
-	date.textContent = `${article.source.name} · ${dateNews}`;
+	// date.textContent = `${article.source.name} · ${dateNews}`;
+	date.textContent = dateNews;
+
+	console.log("Done working for  : " + article.title);
+
+
 }
 
 
