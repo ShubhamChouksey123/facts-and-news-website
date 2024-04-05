@@ -1,3 +1,11 @@
+a {
+    background-color: transparent;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 .black-header {
     flex-direction: row;
 }
@@ -28,15 +36,6 @@
 
 
 
-.wrapper-function-trending-top {
-    width: 856px;
-    height: 457px;
-    /* border: 2px solid red; */
-    justify-content: left;
-    display: flex;
-    flex-direction: row;
-
-}
 
 .wrapper-function-trending-top-img {
     flex: 1;
