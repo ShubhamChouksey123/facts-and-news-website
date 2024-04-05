@@ -1,5 +1,5 @@
 // const API_KEY = "";
-const API_KEY = "413ebebdfb2443e1aa5a426a2af6f439";
+const API_KEY = "cf0cc64a6b974c66b085a31411e45786";
 const url = "https://newsapi.org/v2/everything?q=";
 
 window.addEventListener("load", () => fetchNews("India"));
@@ -16,15 +16,8 @@ function setDate() {
 	let month = dateNow.getMonth() + 1;
 	let dateToday = dateNow.getDate();
 
-	console.log("day : " + day);
-	console.log("year : " + year);
-	console.log("month : " + month);
-	console.log("dateToday : " + dateToday);
-
 	let finalDate = day + ", " + dateToday + " " + month + " " + year;
 	document.getElementById("today-date").innerHTML = dateNow.toDateString();
-	console.log("setting date : " + dateNow.toDateString());
-
 }
 
 

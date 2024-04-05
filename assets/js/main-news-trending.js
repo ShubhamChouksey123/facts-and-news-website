@@ -9,23 +9,25 @@ function populateTrendingNews() {
 		var str = 'news-trending-bottom-' + i + '-topic';
 		console.log(str);
 		var trendingContainer = document.getElementById('news-trending-bottom-' + i + '-topic');
-		var keyword = trendingContainer.innerHTML + 'India';
+		var keyword = trendingContainer.innerHTML + " India";
 		console.log("keyword : " + keyword);
 
 		getNewsViaKeyWord(keyword, 'news-trending-bottom-' + i);
-		// console.log("article : " + article);
-		// console.log(article);
 	}
 
-	// for (var i = 0; i < 4; i++) {
-	// 	var str = 'news-trending-right-' + i + '-topic';
-	// 	console.log(str);
-	// 	var trendingContainer = document.getElementById('news-trending-right-' + i + '-topic');
-	// 	var keyword = trendingContainer.innerHTML + 'India';
-	// 	console.log("keyword : " + keyword);
+	for (var i = 0; i < 5; i++) {
+		var str = 'news-trending-right-' + i + '-topic';
+		console.log(str);
+		var trendingContainer = document.getElementById('news-trending-right-' + i + '-topic');
+		var keyword = trendingContainer.innerHTML + " India";
+		console.log("keyword : " + keyword);
 
-	// 	getNewsViaKeyWord(keyword, 'news-trending-right-' + i);
-	// }
+		getNewsViaKeyWord(keyword, 'news-trending-right-' + i);
+	}
+
+
+	getNewsViaKeyWord('trending India', 'news-trending-top');
+
 }
 
 
@@ -51,7 +53,7 @@ function showContentInTrendingBottom(articles, containerName) {
 	var article;
 
 	for (var i = 0; i < articles.length; i++) {
-		if (articles[i].url) {
+		if (articles[i].url && articles[i].urlToImage && articles[i].title) {
 			article = articles[i];
 		}
 	}
