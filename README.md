@@ -1,7 +1,7 @@
 # Daily New and Random Facts Website
 Java CI with Maven
 
-[![Java CI with Maven](https://github.com/ShubhamChouksey123/facts-and-news-website/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/ShubhamChouksey123/quiz-website/actions/workflows/maven.yml)
+[![Java CI with Maven](https://github.com/ShubhamChouksey123/facts-and-news-website/actions/runs/8573802156/job/${{ github.run_id }})](https://github.com/ShubhamChouksey123/quiz-website/actions/workflows/maven.yml)
 
 ## Overview
 Welcome to my news and facts website repository! This digital canvas is a testament to my journey as a software engineer, where I showcase my skills, projects, and experiences. Crafted with care, it's tailored to offer visitors profound insights into my expertise and creative endeavors.
@@ -26,5 +26,5 @@ I'm enthusiastic about embarking on new journeys and crafting innovative solutio
 ## License and Attribution
 - This project operates under an open-source model and is available under the MIT License.
 - Certain elements of this repository are copyrighted by [Colorlib](https://colorlib.com/wp/templates/).
-The HTML design template is sourced from [ThemeWagon](https://themewagon.com/themes/free-bootstrap-4-html5-news-portal-website-template-aznews/).
+The HTML design template is sourced from [ThemeWagon](https://themewagon.com/themes/free-bootstrap-4-html5-news-portal-website-template-aznews/), and is available under the free tier plan of the website.
 - This project is not intended for commercial purposes.
