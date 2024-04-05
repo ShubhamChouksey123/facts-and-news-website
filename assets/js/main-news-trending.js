@@ -17,17 +17,15 @@ function populateTrendingNews() {
 		// console.log(article);
 	}
 
-	for (var i = 0; i < 4; i++) {
-		var str = 'news-trending-right-' + i + '-topic';
-		console.log(str);
-		var trendingContainer = document.getElementById('news-trending-right-' + i + '-topic');
-		var keyword = trendingContainer.innerHTML + 'India';
-		console.log("keyword : " + keyword);
+	// for (var i = 0; i < 4; i++) {
+	// 	var str = 'news-trending-right-' + i + '-topic';
+	// 	console.log(str);
+	// 	var trendingContainer = document.getElementById('news-trending-right-' + i + '-topic');
+	// 	var keyword = trendingContainer.innerHTML + 'India';
+	// 	console.log("keyword : " + keyword);
 
-		getNewsViaKeyWord(keyword, 'news-trending-right-' + i);
-		// console.log("article : " + article);
-		// console.log(article);
-	}
+	// 	getNewsViaKeyWord(keyword, 'news-trending-right-' + i);
+	// }
 }
 
 

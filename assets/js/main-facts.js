@@ -37,12 +37,6 @@ async function fetchAndPopulateFacts() {
 
 function populateFacts(facts) {
 
-	for (var i = 0; i < 5; i++) {
-		var factContainer = document.getElementById('fact-right-' + i);
-		factContainer.innerHTML = facts[i].fact;
-	}
-
-
 	console.log("setting top Facts")
 	for (var i = 10; i < 14; i++) {
 		var index = i - 10;
