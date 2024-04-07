@@ -56,19 +56,24 @@ function showContentInTrendingBottom(articles, index, containerName) {
 		return;
 
 	console.log('logging articles from showContentInTrendingBottom with index : ' + index);
-	console.log(articles);
 
 	var article;
 
 	for (var i = index; i < articles.length; i++) {
-		console.log("i : " + i);
 		if (articles[i].link && articles[i].image_url && articles[i].title) {
 			article = articles[i];
-			console.log("article: " + article);
+			console.log("so we have got and article which has not null link, image and title");
+			console.log(article);
 			index = i + 1;
 			break;
 		}
 	}
+
+	if (!article) {
+		console.error("so we couldn't find and article from the 10 results");
+		return;
+	}
+
 
 	console.log("The article is ");
 	console.log(article);
@@ -86,7 +91,9 @@ function showContentInTrendingBottom(articles, index, containerName) {
 	title.href = article.link;
 
 	const categoryDOM = document.getElementById(containerName + '-topic');
-	setCategoryOfNews(article, categoryDOM)
+	console.log("setting category of DOM of topic : " + containerName + '-topic');
+	console.log(categoryDOM);
+	setCategoryOfNews(article, categoryDOM);
 
 	return index;
 }
@@ -98,6 +105,8 @@ function setCategoryOfNews(article, categoryDOM) {
 	if (!article || !article.category) {
 		return null;
 	}
+
+	console.log("article.category : " + article.category);
 
 	categoryDOM.innerHTML = article.category[0];
 
