@@ -1,5 +1,8 @@
+body {}
+
 a {
     background-color: transparent;
+    text-decoration: none;
 }
 
 a:hover {
