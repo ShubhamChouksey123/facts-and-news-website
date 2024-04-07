@@ -1,11 +1,9 @@
 // const API_KEY = "";
 const FACTS_API_KEY = "6K8F0KUmxbkwILLE16Topg==p6zMCiZzsiOlfAAZ";
 
-
-
-var limit = 3;
-
 document.addEventListener("load", fetchAndPopulateFacts());
+
+
 
 async function fetchAndPopulateFacts() {
 

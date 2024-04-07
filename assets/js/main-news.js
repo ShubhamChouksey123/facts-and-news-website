@@ -1,24 +1,10 @@
 // const API_KEY = "";
 const API_KEY = "pub_41374058451432a24eb77e3552c8fb2010e7d";
-const url = "https://newsdata.io/api/1/news?apikey=" + API_KEY + "&q=";
+const url = "https://newsdata.io/api/1/news?apikey=" + API_KEY + "&language=en,hi" + "&q=";
+
+
 
 window.addEventListener("load", () => fetchNews("India"));
-window.addEventListener("load", () => setDate());
-
-setDate();
-function setDate() {
-	const dateNow = new Date();
-
-	var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-	var day = days[dateNow.getDay()];
-
-	let year = dateNow.getFullYear();
-	let month = dateNow.getMonth() + 1;
-	let dateToday = dateNow.getDate();
-
-	let finalDate = day + ", " + dateToday + " " + month + " " + year;
-	document.getElementById("today-date").innerHTML = dateNow.toDateString();
-}
 
 
 async function fetchNews(query) {
@@ -98,9 +84,6 @@ function fillNewsCard(articles) {
 		fillNthCard(articles[i], clone);
 		document.getElementById('container-news-card').appendChild(clone);
 	}
-
-
-
 }
 
 // Function to fill the Nth Card with article and append it to the DOM
@@ -114,9 +97,8 @@ function fillNthCard(article, clone) {
 	console.log("The article is ");
 	console.log(article);
 	// Fill in the data
-	const img = clone.querySelector('#news-img');
-	img.src = article.image_url;
-	img.alt = article.title;
+	const imgDOM = clone.querySelector('#news-img');
+	fillCardImage(article, imgDOM)
 
 	const title = clone.querySelector('#news-title');
 	title.textContent = article.title;
@@ -136,9 +118,33 @@ function fillNthCard(article, clone) {
 	date.textContent = dateNews;
 
 	console.log("Done working for  : " + article.title);
-
-
 }
+
+
+// Function to fill the Nth Card with article and append it to the DOM
+function fillCardImage(article, imgDOM) {
+
+	if (!article) {
+		console.log("null data from API call");
+		return;
+	}
+
+	if (article.image_url) {
+		imgDOM.src = article.image_url;
+		imgDOM.alt = article.title;
+		return;
+	}
+
+	if (article.source_icon) {
+		imgDOM.src = article.source_icon;
+		imgDOM.alt = article.title;
+		return;
+	}
+}
+
+
+
+
 
 
 
@@ -154,8 +160,6 @@ function searchViaKeyWord(keyword) {
 const searchKeyWord = document.getElementById('search-keyword');
 const searchButton = document.getElementById('search-button');
 
-
-
 searchButton.addEventListener("click", () => {
 	const keyword = searchKeyWord.value;
 	console.log("submitted with keyword : " + keyword);
@@ -166,40 +170,3 @@ searchButton.addEventListener("click", () => {
 });
 
 
-const canvasWindow = document.getElementById('fh5co-offcanvas');
-function closeSideCanvas() {
-	console.log("closing side canvas");
-	canvasWindow.style.display = 'none';
-}
-
-
-function openSideCanvas() {
-	canvasWindow.style.display = 'block';
-}
-
-async function fetchNew(query) {
-
-	console.log("fetch news with query : " + query);
-
-	const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
-	const data = await res.json();
-	console.log(data);
-	// console.log(data.articles[0]);
-	console.log("Logging from the fetchNews function and returning " + data.articles[0]);
-
-	return data.articles[0];
-}
-
-
-
-// getNewsViaKeyWord('concert');
-
-// function getNewsViaKeyWord(keyword) {
-
-// 	if (!keyword)
-// 		return;
-
-// 	// closeSideCanvas();
-// 	var article = fetchNew(keyword);
-// 	console.log("news article " + article);
-// }
