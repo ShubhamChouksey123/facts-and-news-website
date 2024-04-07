@@ -27,6 +27,7 @@ function populateTrendingNews(articles) {
 		return;
 	}
 
+	fillTrendingMovingTitles(articles);
 
 	console.log("populating from populateTrendingNews function with articles : ");
 	console.log(articles);
@@ -110,4 +111,41 @@ function setCategoryOfNews(article, categoryDOM) {
 
 	categoryDOM.innerHTML = article.category[0];
 
+}
+
+
+
+function searchViaKeyWordForTrending(keyword) {
+
+	if (!keyword)
+		return;
+
+	// closeSideCanvas();
+	fetchNewsForTrending(keyword);
+}
+
+
+
+function fillTrendingMovingTitles(articles) {
+
+	var filteredTopics = [];
+	for (var i = 0; i < articles.length; i++) {
+		if (articles[i].title) {
+			filteredTopics.push(articles[i].title);
+			console.log("added tittle : " + articles[i].title);
+			if (filteredTopics.length == 3)
+				break;
+		}
+	}
+
+
+	console.log("filteredTopics" + filteredTopics);
+
+	// var dom = document.getElementById('#news-trending-moving-0');
+	// console.log(dom);
+	// document.getElementById('news-trending-moving-0').innerHTML = filteredTopics.at(0);
+	// document.getElementById('news-trending-moving-1').innerHTML = filteredTopics[1];
+	// document.getElementById('news-trending-moving-2').innerHTML = filteredTopics[2];
+
+	// startTicker();
 }

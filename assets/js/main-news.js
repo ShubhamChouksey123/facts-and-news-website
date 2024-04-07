@@ -148,7 +148,7 @@ function fillCardImage(article, imgDOM) {
 
 
 
-function searchViaKeyWord(keyword) {
+function searchViaKeyWordForRecentArticle(keyword) {
 
 	if (!keyword)
 		return;

@@ -126,17 +126,20 @@
                                             <li><a href="https://quiz-website-g8d7.onrender.com/">Home</a>
                                             </li>
                                             <li><a href="#"
-                                                    onclick="searchViaKeyWord('travel'); return false;">Travel</a>
-                                            </li>
-                                            <li><a href="#" onclick="searchViaKeyWord('style'); return false;">Style</a>
+                                                    onclick="searchViaKeyWordForTrending('travel'); return false;">Travel</a>
                                             </li>
                                             <li><a href="#"
-                                                    onclick="searchViaKeyWord('photography'); return false;">Photography</a>
+                                                    onclick="searchViaKeyWordForTrending('style'); return false;">Style</a>
                                             </li>
-                                            <li><a href="#" onclick="searchViaKeyWord('food'); return false;">Food &
+                                            <li><a href="#"
+                                                    onclick="searchViaKeyWordForTrending('photography'); return false;">Photography</a>
+                                            </li>
+                                            <li><a href="#"
+                                                    onclick="searchViaKeyWordForTrending('food'); return false;">Food
+                                                    &
                                                     Drinks</a></li>
                                             <li><a href="#"
-                                                    onclick="searchViaKeyWord('culture'); return false;">Culture</a>
+                                                    onclick="searchViaKeyWordForTrending('culture'); return false;">Culture</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -179,10 +182,13 @@
                                 <!-- <p>Rem ipsum dolor sit amet, consectetur adipisicing elit.</p> -->
                                 <div class="trending-animated">
                                     <ul id="js-news" class="js-hidden">
-                                        <li class="news-item">Bangladesh dolor sit amet, consectetur adipisicing elit.
+                                        <li class="news-item" id="news-trending-moving-0">Bangladesh dolor sit amet,
+                                            consectetur adipisicing elit.
                                         </li>
-                                        <li class="news-item">Spondon IT sit amet, consectetur.......</li>
-                                        <li class="news-item">Rem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        <li class="news-item" id="news-trending-moving-1">Spondon IT sit amet,
+                                            consectetur.......</li>
+                                        <li class="news-item" id="news-trending-moving-2">Rem ipsum dolor sit amet,
+                                            consectetur adipisicing elit.
                                         </li>
                                     </ul>
                                 </div>
@@ -1069,16 +1075,49 @@
                     <!-- section Tittle -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="section-tittle mb-30">
+                            <div class="section-tittle mb-30" style="margin-top: 20px;">
                                 <h3>Recent Articles</h3>
                             </div>
                         </div>
                     </div>
+                    <section class="whats-news-area">
+                        <div class="properties__button">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <a onclick="searchViaKeyWordForRecentArticle('India'); return false;"
+                                        class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                                        href="#nav-home" role="tab" aria-controls="nav-home"
+                                        aria-selected="true">All</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Lifestyle'); return false;"
+                                        class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                                        href="#nav-profile" role="tab" aria-controls="nav-profile"
+                                        aria-selected="false">Lifestyle</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Travel'); return false;"
+                                        class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
+                                        href="#nav-contact" role="tab" aria-controls="nav-contact"
+                                        aria-selected="false">Travel</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Fashion'); return false;"
+                                        class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#nav-last"
+                                        role="tab" aria-controls="nav-contact" aria-selected="false">Fashion</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Sports'); return false;"
+                                        class="nav-item nav-link" id="nav-Sports" data-toggle="tab"
+                                        href="#nav-nav-Sport" role="tab" aria-controls="nav-contact"
+                                        aria-selected="false">Sports</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Technology'); return false;"
+                                        class="nav-item nav-link" id="nav-technology" data-toggle="tab"
+                                        href="#nav-techno" role="tab" aria-controls="nav-contact"
+                                        aria-selected="false">Technology</a>
+                                </div>
+                            </nav>
+                        </div>
+                    </section>
+                    <div class="row row-cols-1 row-cols-md-3 g-4" id="container-news-card" style="margin: 30px;">
+
+                    </div>
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-md-3 g-4" id="container-news-card" style="margin: 30px;">
 
-            </div>
+
         </div>
 
     </div>
@@ -1117,10 +1156,9 @@
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
-                                        <p>Suscipit mauris pede for con sectetuer sodales adipisci for cursus fames
-                                            lectus tempor da blandit gravida sodales Suscipit mauris pede for con
-                                            sectetuer sodales adipisci for cursus fames lectus tempor da blandit gravida
-                                            sodales Suscipit mauris pede for sectetuer.</p>
+                                        <p>Thank you for visiting our Daily News and Random Facts Website. We're excited
+                                            to share this adventure with you and eagerly anticipate connecting with you
+                                            further.</p>
                                     </div>
                                 </div>
                                 <!-- social -->
