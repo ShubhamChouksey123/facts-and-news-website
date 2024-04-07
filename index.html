@@ -126,17 +126,20 @@
                                             <li><a href="https://quiz-website-g8d7.onrender.com/">Home</a>
                                             </li>
                                             <li><a href="#"
-                                                    onclick="searchViaKeyWord('travel'); return false;">Travel</a>
-                                            </li>
-                                            <li><a href="#" onclick="searchViaKeyWord('style'); return false;">Style</a>
+                                                    onclick="searchViaKeyWordForTrending('travel'); return false;">Travel</a>
                                             </li>
                                             <li><a href="#"
-                                                    onclick="searchViaKeyWord('photography'); return false;">Photography</a>
+                                                    onclick="searchViaKeyWordForTrending('style'); return false;">Style</a>
                                             </li>
-                                            <li><a href="#" onclick="searchViaKeyWord('food'); return false;">Food &
+                                            <li><a href="#"
+                                                    onclick="searchViaKeyWordForTrending('photography'); return false;">Photography</a>
+                                            </li>
+                                            <li><a href="#"
+                                                    onclick="searchViaKeyWordForTrending('food'); return false;">Food
+                                                    &
                                                     Drinks</a></li>
                                             <li><a href="#"
-                                                    onclick="searchViaKeyWord('culture'); return false;">Culture</a>
+                                                    onclick="searchViaKeyWordForTrending('culture'); return false;">Culture</a>
                                             </li>
                                         </ul>
                                     </nav>
@@ -1078,25 +1081,29 @@
                         <div class="properties__button">
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <a onclick="searchViaKeyWord('India'); return false;"
+                                    <a onclick="searchViaKeyWordForRecentArticle('India'); return false;"
                                         class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
                                         href="#nav-home" role="tab" aria-controls="nav-home"
                                         aria-selected="true">All</a>
-                                    <a onclick="searchViaKeyWord('Lifestyle'); return false;" class="nav-item nav-link"
-                                        id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                                        aria-controls="nav-profile" aria-selected="false">Lifestyle</a>
-                                    <a onclick="searchViaKeyWord('Travel'); return false;" class="nav-item nav-link"
-                                        id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-                                        aria-controls="nav-contact" aria-selected="false">Travel</a>
-                                    <a onclick="searchViaKeyWord('Fashion'); return false;" class="nav-item nav-link"
-                                        id="nav-last-tab" data-toggle="tab" href="#nav-last" role="tab"
-                                        aria-controls="nav-contact" aria-selected="false">Fashion</a>
-                                    <a onclick="searchViaKeyWord('Sports'); return false;" class="nav-item nav-link"
-                                        id="nav-Sports" data-toggle="tab" href="#nav-nav-Sport" role="tab"
-                                        aria-controls="nav-contact" aria-selected="false">Sports</a>
-                                    <a onclick="searchViaKeyWord('Technology'); return false;" class="nav-item nav-link"
-                                        id="nav-technology" data-toggle="tab" href="#nav-techno" role="tab"
-                                        aria-controls="nav-contact" aria-selected="false">Technology</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Lifestyle'); return false;"
+                                        class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                                        href="#nav-profile" role="tab" aria-controls="nav-profile"
+                                        aria-selected="false">Lifestyle</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Travel'); return false;"
+                                        class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
+                                        href="#nav-contact" role="tab" aria-controls="nav-contact"
+                                        aria-selected="false">Travel</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Fashion'); return false;"
+                                        class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#nav-last"
+                                        role="tab" aria-controls="nav-contact" aria-selected="false">Fashion</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Sports'); return false;"
+                                        class="nav-item nav-link" id="nav-Sports" data-toggle="tab"
+                                        href="#nav-nav-Sport" role="tab" aria-controls="nav-contact"
+                                        aria-selected="false">Sports</a>
+                                    <a onclick="searchViaKeyWordForRecentArticle('Technology'); return false;"
+                                        class="nav-item nav-link" id="nav-technology" data-toggle="tab"
+                                        href="#nav-techno" role="tab" aria-controls="nav-contact"
+                                        aria-selected="false">Technology</a>
                                 </div>
                             </nav>
                         </div>

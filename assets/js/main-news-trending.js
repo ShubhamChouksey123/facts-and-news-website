@@ -111,3 +111,14 @@ function setCategoryOfNews(article, categoryDOM) {
 	categoryDOM.innerHTML = article.category[0];
 
 }
+
+
+
+function searchViaKeyWordForTrending(keyword) {
+
+	if (!keyword)
+		return;
+
+	// closeSideCanvas();
+	fetchNewsForTrending(keyword);
+}
