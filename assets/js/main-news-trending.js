@@ -85,6 +85,20 @@ function showContentInTrendingBottom(articles, index, containerName) {
 	title.innerHTML = article.title;
 	title.href = article.link;
 
+	const categoryDOM = document.getElementById(containerName + '-topic');
+	setCategoryOfNews(article, categoryDOM)
+
 	return index;
 }
 
+
+
+function setCategoryOfNews(article, categoryDOM) {
+
+	if (!article || !article.category) {
+		return null;
+	}
+
+	categoryDOM.innerHTML = article.category[0];
+
+}
