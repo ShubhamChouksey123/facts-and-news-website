@@ -1,6 +1,5 @@
-// const API_KEY = "";
-const API_KEY = "pub_41374058451432a24eb77e3552c8fb2010e7d";
-const url = "https://newsdata.io/api/1/news?apikey=" + API_KEY + "&language=en,hi" + "&q=";
+// Requests go through the Cloudflare Worker proxy (see worker/), which holds the API key.
+const url = API_BASE_URL + "/news?q=";
 
 
 
@@ -11,7 +10,7 @@ async function fetchNews(query) {
 
 	console.log("fetching news with query : " + query);
 
-	const res = await fetch(`${url}${query}`);
+	const res = await fetch(`${url}${encodeURIComponent(query)}`);
 	const data = await res.json();
 	console.log(data);
 

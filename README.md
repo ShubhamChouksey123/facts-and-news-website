@@ -1,8 +1,4 @@
 # Daily New and Random Facts Website
-Java CI with Maven
-
-[![Java CI with Maven](https://github.com/ShubhamChouksey123/facts-and-news-website/actions/runs/8573802156/job/${{ github.run_id }})](https://github.com/ShubhamChouksey123/quiz-website/actions/workflows/maven.yml)
-
 ## Overview
 Welcome to my news and facts website repository! This digital canvas is a testament to my journey as a software engineer, where I showcase my skills, projects, and experiences. Crafted with care, it's tailored to offer visitors profound insights into my expertise and creative endeavors.
 
@@ -12,8 +8,28 @@ Explore a curated collection of the latest trending news.
 Utilize a convenient search bar to find news related to specific topics.
 Navigate through distinct categories including travel, photography, style, food & drinks, and culture.
 
+## Live Site
+Hosted on GitHub Pages: https://shubhamchouksey123.github.io/facts-and-news-website/
+
+## Data Sources
+The site is fully static. The browser calls a small Cloudflare Worker (`worker/`), which holds the API keys as secrets and forwards requests to these APIs:
+
+| Content | Provider | Worker route | Upstream | Script |
+|---|---|---|---|---|
+| News cards, trending news, ticker, search and category results | [NewsData.io](https://newsdata.io/) | `/news?q=<query>` | `https://newsdata.io/api/1/news` (English and Hindi, default query `India`) | `assets/js/main-news.js`, `assets/js/main-news-trending.js` |
+| Random facts | [API Ninjas Facts API](https://api-ninjas.com/api/facts) | `/facts` | `https://api.api-ninjas.com/v1/facts` (called 4 times, as the free tier returns one fact per call) | `assets/js/main-facts.js` |
+
+The Worker only answers requests from the allowed origins in `worker/wrangler.toml` and caches responses (news 10 min, facts 1 hour) to protect the free-tier quotas. The Worker's public URL is set in `assets/js/config.js`.
+
+## API Key Setup
+No keys are stored in the repo. See [docs/cloudflare-workers.md](docs/cloudflare-workers.md) for the rollout checklist.
+
+1. Get keys from NewsData.io and API Ninjas.
+2. Local dev: create `worker/.dev.vars` (git-ignored) containing `NEWSDATA_KEY=...` and `NINJAS_KEY=...`, run `cd worker && npx wrangler dev`, and set `API_BASE_URL` in `assets/js/config.js` to `http://localhost:8787`.
+3. Production: `cd worker && npx wrangler secret put NEWSDATA_KEY`, the same for `NINJAS_KEY`, then `npx wrangler deploy`. Set `API_BASE_URL` in `assets/js/config.js` to the deployed `*.workers.dev` URL.
+
 ## Getting Started
-Embark on your exploration by simply visiting my website. You'll discover a user-friendly interface designed for seamless navigation.
+Visit the live site above. To run it locally, clone the repo and serve the root with any static server, for example `python3 -m http.server`, then open `http://localhost:8000`. There is no build step.
 
 ## Connect and Collaborate
 Open to new opportunities, collaborations, and enriching discussions, I invite you to connect with me. Whether you have a project in mind, an idea to explore, or simply wish to share insights, please don't hesitate to reach out. You can contact me via:

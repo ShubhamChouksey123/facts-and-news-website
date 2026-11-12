@@ -1,0 +1,12 @@
+name = "facts-and-news-proxy"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Comma-separated origins allowed to call the proxy (CORS).
+ALLOWED_ORIGINS = "https://shubhamchouksey123.github.io,http://localhost:8000"
+
+# Secrets (set with `npx wrangler secret put <NAME>`, never commit):
+#   NEWSDATA_KEY  - newsdata.io API key
+#   NINJAS_KEY    - api-ninjas.com API key
+# For `wrangler dev`, put them in worker/.dev.vars (git-ignored).

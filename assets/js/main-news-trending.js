@@ -2,7 +2,7 @@ window.addEventListener("load", () => fetchNewsForTrending("India"));
 
 async function fetchNewsForTrending(query) {
 
-	const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
+	const res = await fetch(`${url}${encodeURIComponent(query)}`);
 	const data = await res.json();
 	console.log("and data is ");
 	// console.log(data);
