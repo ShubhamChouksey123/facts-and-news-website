@@ -56,6 +56,8 @@ What the frontend does:
 
 Legend: `[x]` done, `[ ]` to do. **(you)** means it needs your Cloudflare or provider account, or your secrets, so I can't do it for you. Run all shell commands from the repo root unless a step says otherwise. Dashboard screens change over time, so menu names below are approximate.
 
+**Status (2026-11-12):** the Worker is deployed at `https://facts-and-news-proxy.shubhamchouksey.workers.dev`, merged to `master` (PR #5) and serving the live site with no keys in the code. Still open: 5.3 (delete the old NewsData.io key), 2.3 (confirm both keys are stored safely), 2.4 (check past usage) and Phase 6 (hardening).
+
 ### Phase 0 - Prerequisites (you)
 - [x] 0.1 Check Node.js: `node -v`. You need v18 or newer. If it's missing, install it with `brew install node`. Done: `v24.14.1`.
 - [x] 0.2 Create a free Cloudflare account at https://dash.cloudflare.com/sign-up and verify your email. No domain or credit card is needed. Done: account created and logged in to the dashboard. This does not log in the CLI, so step 3.1 (`npx wrangler login`) is still needed.
@@ -118,13 +120,13 @@ Generate the new keys first. The old keys stay active until step 5.3 so the live
 
 ### Phase 4 - Deploy to Cloudflare (you)
 Run all commands from `worker/`. Notes from the local run:
-- `wrangler dev` printed `self-signed certificate in certificate chain` while fetching `Request.cf`. This is harmless locally (it falls back to a placeholder). It suggests the network re-signs TLS traffic, so `secret put` and `deploy` may fail with the same error.
-- If they do, export your organisation's root CA as a PEM file and run `export NODE_EXTRA_CA_CERTS=/path/to/corporate-ca.pem` first, or switch networks. Do not set `NODE_TLS_REJECT_UNAUTHORIZED=0`, which turns off TLS checking while you upload secrets.
+- `wrangler dev` printed `self-signed certificate in certificate chain` while fetching `Request.cf`. This is harmless locally (it falls back to a placeholder). It suggests the network re-signs TLS traffic, so `secret put` and `deploy` could fail with the same error. In this setup they did not, and the warning can be ignored.
+- If they do fail, export your organisation's root CA as a PEM file and run `export NODE_EXTRA_CA_CERTS=/path/to/corporate-ca.pem` first, or switch networks. Do not set `NODE_TLS_REJECT_UNAUTHORIZED=0`, which turns off TLS checking while you upload secrets.
 
-- [x] 4.1 **Upload the NewsData secret:** `cd worker && npx wrangler secret put NEWSDATA_KEY`. When it shows `Enter a secret value:`, paste the key from your password manager (the input is hidden) and press Enter. Expected: `Success! Uploaded secret NEWSDATA_KEY`. The first secret upload asks `There doesn't seem to be a Worker called "facts-and-news-proxy". Do you want to create a new Worker...?`, so answer `Y`. Status: not completed. The first attempt did not create the Worker (`wrangler secret list` returned `Worker "facts-and-news-proxy" not found`), so deploy first (4.4), then upload the secrets. Secrets survive later deploys. No certificate error occurred, so the TLS note above did not apply. Done: `NEWSDATA_KEY` uploaded.
+- [x] 4.1 **Upload the NewsData secret:** `cd worker && npx wrangler secret put NEWSDATA_KEY`. When it shows `Enter a secret value:`, paste the key from your password manager (the input is hidden) and press Enter. Expected: `Success! Uploaded secret NEWSDATA_KEY`. The Worker must exist first, so run the deploy (4.4) before this step. If you run it before the Worker exists, the upload does not complete and `wrangler secret list` reports `Worker "facts-and-news-proxy" not found`. Secrets survive later deploys. Done: `NEWSDATA_KEY` uploaded.
 - [x] 4.2 **Upload the API Ninjas secret:** `npx wrangler secret put NINJAS_KEY`, same as above (no create-Worker prompt this time). Done: `NINJAS_KEY` uploaded.
 - [x] 4.3 **Check the secret names:** `npx wrangler secret list`. Expected: both `NEWSDATA_KEY` and `NINJAS_KEY` (values are never shown). Done: `secret list` shows `NEWSDATA_KEY` and `NINJAS_KEY`.
-- [x] 4.4 **Deploy:** `npx wrangler deploy`. On the first deploy it may ask you to register a `workers.dev` subdomain, so pick a name. Expected: a line like `https://facts-and-news-proxy.<your-subdomain>.workers.dev`. Copy that URL. Done: deployed as `https://facts-and-news-proxy.shubhamchouksey.workers.dev` (workers.dev subdomain `shubhamchouksey` registered). No secrets are attached yet, so the routes fail until steps 4.1 and 4.2 are done.
+- [x] 4.4 **Deploy (do this before 4.1 and 4.2):** `npx wrangler deploy`. On the first deploy it asks you to register a `workers.dev` subdomain, so pick a name. Expected: a line like `https://facts-and-news-proxy.<your-subdomain>.workers.dev`. Copy that URL. The routes fail until the secrets are uploaded, and a new subdomain can take a few minutes before TLS works. Done: deployed as `https://facts-and-news-proxy.shubhamchouksey.workers.dev` (subdomain `shubhamchouksey`).
 - [x] 4.5 **Put the URL in the frontend.** Replace `<worker-url>` with the copied URL, from the repo root: Done: `assets/js/config.js` now points at the deployed Worker URL (no trailing slash).
   ```
   sed -i '' 's#^const API_BASE_URL = .*#const API_BASE_URL = "<worker-url>";#' assets/js/config.js
@@ -134,7 +136,7 @@ Run all commands from `worker/`. Notes from the local run:
 - [x] 4.6 **Run the checks in [section 6](#6-verification)** against the deployed URL. Everything must pass before you continue. Done: all checks passed against the deployed Worker (news and facts 200, CORS header present for the Pages origin, 403 without or with a wrong Origin, 404 unknown path, 405 POST, no key in responses).
 
 ### Phase 5 - Release (you)
-- [ ] 5.1 **Commit on a branch and open a PR** (the repo history uses PRs):
+- [x] 5.1 **Commit on a branch and open a PR** (the repo history uses PRs): Done: committed as `d665180` on branch `secure-api-keys` and merged into `master` through PR #5 (merge commit `b9cad61`).
   ```
   git checkout -b secure-api-keys
   git add .gitignore CLAUDE.md README.md assets/js index.html docs worker
@@ -144,12 +146,12 @@ Run all commands from `worker/`. Notes from the local run:
   gh pr create --fill
   ```
   Then merge the PR. GitHub Pages rebuilds from `master`.
-- [ ] 5.2 **Wait for Pages to rebuild** (usually 1-2 minutes). Check with `gh api repos/ShubhamChouksey123/facts-and-news-website/pages/builds/latest --jq .status`. Expected: `built`.
-- [ ] 5.3 **Verify the live site, then revoke the old keys.**
+- [x] 5.2 **Wait for Pages to rebuild** (usually 1-2 minutes). Check with `gh api repos/ShubhamChouksey123/facts-and-news-website/pages/builds/latest --jq .status`. Expected: `built`. Done: GitHub Pages rebuilt and serves the new code.
+- [ ] 5.3 **Verify the live site, then revoke the old keys.** Live site verified: it loads the Worker URL and the served scripts contain no key. Remaining: delete the old NewsData.io key.
   1. Open https://shubhamchouksey123.github.io/facts-and-news-website/ and hard refresh (Cmd+Shift+R).
   2. Confirm news, trending, ticker and facts load, and Network requests go to your `workers.dev` URL with no key.
   3. Only then revoke the old keys. The old NewsData.io key was not deleted when the new one was generated (step 2.1), so delete it now on the NewsData.io dashboard. The API Ninjas key was already replaced in step 2.2, so nothing is left to revoke there.
-- [ ] 5.4 **Confirm no live key is left in the code:** `grep -rnE "pub_[0-9a-f]{20,}" . --include='*.js' --include='*.html' --exclude-dir=.git --exclude='*.min.js'`. Expected: no output.
+- [x] 5.4 **Confirm no live key is left in the code:** `grep -rnE "pub_[0-9a-f]{20,}" . --include='*.js' --include='*.html' --exclude-dir=.git --exclude='*.min.js'`. Expected: no output. Done: no matches in the working tree. The live `config.js` points at the Worker, and the live `main-news.js`, `main-news-trending.js` and `main-facts.js` contain no key.
 
 ### Phase 6 - Hardening (recommended)
 - [ ] 6.1 **Rate-limit the Worker.** Cloudflare dashboard -> Security -> WAF -> Rate limiting rules only works on a domain you own that is on Cloudflare. It does not apply to a `workers.dev` URL. Options:
