@@ -1,18 +1,10 @@
-// const API_KEY = "";
-const FACTS_API_KEY = "6K8F0KUmxbkwILLE16Topg==p6zMCiZzsiOlfAAZ";
-
 document.addEventListener("load", fetchAndPopulateFacts());
 
 
 
 async function fetchAndPopulateFacts() {
 
-	fetch('https://api.api-ninjas.com/v1/facts?limit=20', {
-		method: 'GET',
-		headers: {
-			'X-Api-Key': '6K8F0KUmxbkwILLE16Topg==p6zMCiZzsiOlfAAZ'
-		}
-	})
+	fetch(API_BASE_URL + '/facts')
 		.then(response => {
 			if (!response.ok) {
 				throw new Error('Network response was not ok');

@@ -178,3 +178,7 @@ app/src/main/resources/templates/facts
 # app/src/main/resources/templates/facts/css/*
 # app/src/main/resources/templates/facts/images/*
 # app/src/main/resources/templates/facts/js/*
+# Cloudflare Worker local secrets / state
+worker/.dev.vars
+worker/.wrangler/
+worker/node_modules/
