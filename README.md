@@ -12,24 +12,31 @@ Navigate through distinct categories including travel, photography, style, food 
 Hosted on GitHub Pages: https://shubhamchouksey123.github.io/facts-and-news-website/
 
 ## Data Sources
-The site is fully static. The browser calls a small Cloudflare Worker (`worker/`), which holds the API keys as secrets and forwards requests to these APIs:
+The frontend is fully static. The browser calls a small Cloudflare Worker (`worker/`, deployed at `https://facts-and-news-proxy.shubhamchouksey.workers.dev`), which holds the API keys as secrets and forwards requests to these APIs:
+
+```
+Browser (GitHub Pages) -> Cloudflare Worker (keys as secrets) -> NewsData.io / API Ninjas
+```
 
 | Content | Provider | Worker route | Upstream | Script |
 |---|---|---|---|---|
 | News cards, trending news, ticker, search and category results | [NewsData.io](https://newsdata.io/) | `/news?q=<query>` | `https://newsdata.io/api/1/news` (English and Hindi, default query `India`) | `assets/js/main-news.js`, `assets/js/main-news-trending.js` |
 | Random facts | [API Ninjas Facts API](https://api-ninjas.com/api/facts) | `/facts` | `https://api.api-ninjas.com/v1/facts` (called 4 times, as the free tier returns one fact per call) | `assets/js/main-facts.js` |
 
-The Worker only answers requests from the allowed origins in `worker/wrangler.toml` and caches responses (news 10 min, facts 1 hour) to protect the free-tier quotas. The Worker's public URL is set in `assets/js/config.js`.
+The Worker only answers requests from the allowed origins in `worker/wrangler.toml` and caches responses (news 10 min, facts 1 hour) to protect the free-tier quotas. The Worker's public URL is set in `assets/js/config.js`. The facts route makes 4 upstream calls per cache miss, because the free API Ninjas tier returns one fact per call.
+
+## Security
+API keys are never stored in the repo or in browser-visible code, because the Worker adds them server-side. The step-by-step guide, verification checks and rollback plan are in [docs/cloudflare-workers.md](docs/cloudflare-workers.md). Never commit `worker/.dev.vars`, which holds local keys and is git-ignored.
 
 ## API Key Setup
-No keys are stored in the repo. See [docs/cloudflare-workers.md](docs/cloudflare-workers.md) for the rollout checklist.
+Only needed if you fork the project or want to change the Worker, since the live site already uses the deployed Worker. Requires Node.js 18+ and a free Cloudflare account. No keys are stored in the repo. See [docs/cloudflare-workers.md](docs/cloudflare-workers.md) for details.
 
 1. Get keys from NewsData.io and API Ninjas.
-2. Local dev: create `worker/.dev.vars` (git-ignored) containing `NEWSDATA_KEY=...` and `NINJAS_KEY=...`, run `cd worker && npx wrangler dev`, and set `API_BASE_URL` in `assets/js/config.js` to `http://localhost:8787`.
-3. Production: `cd worker && npx wrangler secret put NEWSDATA_KEY`, the same for `NINJAS_KEY`, then `npx wrangler deploy`. Set `API_BASE_URL` in `assets/js/config.js` to the deployed `*.workers.dev` URL.
+2. Local dev: create `worker/.dev.vars` (git-ignored) containing `NEWSDATA_KEY=...` and `NINJAS_KEY=...`, run `cd worker && npx wrangler dev`, and set `API_BASE_URL` in `assets/js/config.js` to `http://localhost:8787`. Change it back before committing.
+3. Production: `cd worker && npx wrangler login`, then `npx wrangler deploy`, then `npx wrangler secret put NEWSDATA_KEY` and the same for `NINJAS_KEY`. Set `API_BASE_URL` in `assets/js/config.js` to the printed `*.workers.dev` URL. If you host the site on another domain, add it to `ALLOWED_ORIGINS` in `worker/wrangler.toml` first.
 
 ## Getting Started
-Visit the live site above. To run it locally, clone the repo and serve the root with any static server, for example `python3 -m http.server`, then open `http://localhost:8000`. There is no build step.
+Visit the live site above. To run it locally, clone the repo and serve the root with `python3 -m http.server 8000`, then open `http://localhost:8000`. There is no build step. The page uses the deployed Worker, which allows requests from `localhost:8000`, so you don't need your own API keys just to browse it.
 
 ## Connect and Collaborate
 Open to new opportunities, collaborations, and enriching discussions, I invite you to connect with me. Whether you have a project in mind, an idea to explore, or simply wish to share insights, please don't hesitate to reach out. You can contact me via:
